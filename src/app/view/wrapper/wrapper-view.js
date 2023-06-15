@@ -10,7 +10,10 @@ const CssClasses = {
 };
 
 export default class WrapperView extends View {
-    constructor() {
+    /**
+     * @param {Router} router
+     */
+    constructor(router) {
         /**
          * @type {import('../../../util/element-creator').ElementParams}
          */
@@ -21,6 +24,9 @@ export default class WrapperView extends View {
             callback: null,
         };
         super(params);
+        this.header = null;
+        this.main = null;
+        this.router = router;
     }
 
     createView(params) {
@@ -33,15 +39,29 @@ export default class WrapperView extends View {
         const elementCreator = new ElementCreator(elementParams);
         const wrapper = elementCreator.getElement();
 
+        this.header = new HeaderView(this.router);
+        this.main = new MainView();
         const footerView = new FooterView();
-        const mainView = new MainView();
-        const headerView = new HeaderView(mainView);
 
         wrapper.append(
-            headerView.getHtmlElement(),
-            mainView.getHtmlElement(),
+            this.header.getHtmlElement(),
+            this.main.getHtmlElement(),
             footerView.getHtmlElement(),
         );
         return elementCreator;
+    }
+
+    /**
+     * @return {View}
+     */
+    getHeaderView() {
+        return this.header;
+    }
+
+    /**
+     * @return {View}
+     */
+    getMainView() {
+        return this.main;
     }
 }

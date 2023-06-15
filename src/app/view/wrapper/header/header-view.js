@@ -2,8 +2,7 @@ import ElementCreator from '../../../util/element-creator';
 import View from '../../view';
 import './header.css';
 import LinkView from './link/link-view';
-import IndexView from '../main/index/index-view.js';
-import ProductView from '../main/prodicts/product-view.js';
+import { Pages } from '../../../router/pages.js';
 
 const CssClasses = {
     HEADER: 'header',
@@ -12,10 +11,9 @@ const CssClasses = {
 
 const NamePages = {
     INDEX: 'Главная',
-    CARDS: 'Карточки',
+    PRODUCT: 'Карточки',
+    TEST: 'TEST',
 };
-
-const START_PAGE_INDEX = 0;
 
 /**
  * @typedef {{name: string, callback: Function}} Page
@@ -23,10 +21,9 @@ const START_PAGE_INDEX = 0;
 
 export default class HeaderView extends View {
     /**
-     *
-     * @param {MainView} mainComponent
+     * @param {Router} router
      */
-    constructor(mainComponent) {
+    constructor(router) {
         /**
          * @type {ElementParams} params
          */
@@ -37,15 +34,14 @@ export default class HeaderView extends View {
             callback: null,
         };
         super(params);
-        this.linkElements = [];
-        this.configureView(mainComponent);
+        this.linkElements = new Map();
+        this.configureView(router);
     }
 
     /**
-     *
-     * @param {MainView} mainComponent
+     * @param {Router} router
      */
-    configureView(mainComponent) {
+    configureView(router) {
         const paramsNav = {
             tag: 'nav',
             classNames: [CssClasses.NAV],
@@ -56,39 +52,30 @@ export default class HeaderView extends View {
         this.elementCreator.createContainer();
         this.elementCreator.addInnerElement(creatorNav);
 
-        const pages = this.getPages(mainComponent);
+        Object.keys(NamePages).forEach((key) => {
+            /**
+             * @type {Page}
+             */
+            const linkParams = {
+                name: NamePages[key],
+                callback: () => router.navigate(Pages[key]),
+            };
+            const linkElement = new LinkView(linkParams, this.linkElements);
 
-        pages.forEach((el, index) => {
-            const linkElement = new LinkView(el, this.linkElements);
             creatorNav.addInnerElement(linkElement.getHtmlElement());
 
-            this.linkElements.push(linkElement);
-
-            if (index === START_PAGE_INDEX) {
-                el.callback();
-                linkElement.setSelectedStatus();
-            }
+            this.linkElements.set(Pages[key], linkElement);
         });
     }
 
     /**
      *
-     * @param {MainView} mainComponent
-     *  @returns {Array<Page>}
+     * @param {Page.name} namePage
      */
-    getPages(mainComponent) {
-        const indexView = new IndexView();
-        const productView = new ProductView();
-
-        return [
-            {
-                name: NamePages.INDEX,
-                callback: () => mainComponent.setContent(indexView),
-            },
-            {
-                name: NamePages.CARDS,
-                callback: () => mainComponent.setContent(productView),
-            },
-        ];
+    setSelectedItem(namePage) {
+        const linkComponent = this.linkElements.get(namePage);
+        if (linkComponent instanceof LinkView) {
+            linkComponent.setSelectedStatus();
+        }
     }
 }

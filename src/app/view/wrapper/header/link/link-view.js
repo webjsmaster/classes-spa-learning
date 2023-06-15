@@ -9,7 +9,7 @@ const CssClasses = {
 export default class LinkView extends View {
     /**
      * @param {Page} pageParam
-     * @param {Array<LinkView>} linkElements
+     * @param {Map<LinkView>} linkElements
      */
 
     constructor(pageParam, linkElements) {
