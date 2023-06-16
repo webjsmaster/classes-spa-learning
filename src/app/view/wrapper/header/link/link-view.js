@@ -43,9 +43,9 @@ export default class LinkView extends View {
      * @param {Page} pageParam
      */
     configureView(pageParam) {
+        this.elementCreator.setTextContent(pageParam.name);
+        this.elementCreator.setCallback(pageParam.callback);
         const element = this.elementCreator.getElement();
         element.addEventListener('click', this.setSelectedStatus.bind(this));
-
-        this.elementCreator.setCallback(pageParam.callback);
     }
 }

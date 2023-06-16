@@ -1,7 +1,7 @@
 import '../../style.css';
 import WrapperView from './view/wrapper/wrapper-view';
 import Router from './router/router.js';
-import { Pages } from './router/pages.js';
+import { ID_SELECTOR, Pages } from './router/pages.js';
 import IndexView from './view/wrapper/main/index/index-view.js';
 import ProductView from './view/wrapper/main/prodicts/product-view.js';
 import NotFoundView from './view/wrapper/main/not-found/not-found.js';
@@ -39,8 +39,9 @@ export default class App {
                 },
             },
             {
-                path: `${Pages.PRODUCT}`,
-                callback: () => {
+                path: `${Pages.PRODUCT}/${ID_SELECTOR}`,
+                callback: (id) => {
+                    this.setContent(Pages.PRODUCT, new ProductView(id));
                 },
             },
             {

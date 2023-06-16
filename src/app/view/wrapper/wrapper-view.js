@@ -24,12 +24,19 @@ export default class WrapperView extends View {
             callback: null,
         };
         super(params);
+        this.router = router;
         this.header = null;
         this.main = null;
-        this.router = router;
+        this.configureView(params, router);
     }
 
-    createView(params) {
+    /**
+     * @param params
+     * @param router
+     * @return {ElementCreator}
+     */
+
+    configureView(params, router) {
         const elementParams = {
             tag: params.tag,
             classNames: params.classNames,
@@ -39,7 +46,7 @@ export default class WrapperView extends View {
         const elementCreator = new ElementCreator(elementParams);
         const wrapper = elementCreator.getElement();
 
-        this.header = new HeaderView(this.router);
+        this.header = new HeaderView(router);
         this.main = new MainView();
         const footerView = new FooterView();
 
