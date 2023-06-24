@@ -46,6 +46,7 @@ export default class MainView extends View {
             currentElement.firstElementChild.remove();
         }
 
+        this.elementCreator.createContainer();
         this.elementCreator.addInnerElement(element);
     }
 }

@@ -1,5 +1,6 @@
 import View from '../../../../view.js';
 import ElementCreator from '../../../../../util/element-creator.js';
+import './card.css';
 
 const CssClasses = {
     CARD: 'card',
@@ -34,7 +35,7 @@ export default class CardView extends View {
     configureView(card) {
         const paramsLabel = {
             tag: 'label',
-            classNames: [CssClasses.CARD],
+            classNames: [CssClasses.FIELD],
             textContent: card.name,
             callback: null,
         };

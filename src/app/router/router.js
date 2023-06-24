@@ -18,6 +18,8 @@ export default class Router {
     navigate(url) {
         const request = this.parseUrl(url);
         const pathForFind = request.resource === '' ? request.path : `${request.path}/${request.resource}`;
+
+        console.log('🧬:', request.resource, pathForFind, this.routes);
         const route = this.routes.find((item) => item.path === pathForFind);
 
         if (!route) {

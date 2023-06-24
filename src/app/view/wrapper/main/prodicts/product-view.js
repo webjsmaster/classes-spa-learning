@@ -1,6 +1,7 @@
 import View from '../../../view.js';
 import CardView from './card/card-view.js';
 import { cardsInfo } from '../../../../../data/cards.js';
+import './products.css';
 
 const CssClasses = {
     PRODUCT: 'product',

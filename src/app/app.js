@@ -35,6 +35,12 @@ export default class App {
             {
                 path: `${Pages.INDEX}`,
                 callback: () => {
+                    this.setContent(Pages.INDEX, new IndexView());
+                },
+            },
+            {
+                path: `${Pages.PRODUCT}`,
+                callback: () => {
                     this.setContent(Pages.PRODUCT, new ProductView());
                 },
             },

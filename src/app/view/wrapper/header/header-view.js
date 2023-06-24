@@ -64,7 +64,6 @@ export default class HeaderView extends View {
             creatorNav.addInnerElement(linkElement.getHtmlElement());
 
             this.linkElements.set(Pages[key], linkElement);
-            console.log('💲:', NamePages[key]);
         });
     }
 
@@ -74,8 +73,6 @@ export default class HeaderView extends View {
      */
     setSelectedItem(namePage) {
         const linkComponent = this.linkElements.get(namePage);
-
-        console.log('📂:', linkComponent);
         if (linkComponent instanceof LinkView) {
             linkComponent.setSelectedStatus();
         }
