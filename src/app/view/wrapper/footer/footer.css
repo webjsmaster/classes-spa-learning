@@ -1,9 +1,10 @@
-.footer {
-    border: 1px solid black;
-    width: 500px;
-    margin: 30px auto;
-    display: flex;
+.footer {}
+
+.footer__content {
+    display:flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
+
     padding: 20px;
 }

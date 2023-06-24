@@ -20,7 +20,6 @@ export default class Router {
         const pathForFind = request.resource === '' ? request.path : `${request.path}/${request.resource}`;
         const route = this.routes.find((item) => item.path === pathForFind);
 
-        console.log('🚀:pathForFind', url);
         if (!route) {
             this.redirectToNotFound();
             return;

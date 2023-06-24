@@ -72,7 +72,14 @@ h1, h2, h3, h4, h5, h6 {
 
 
 [class*="__container"] {
-    max-width: 500px;
+    width: 500px;
     margin: 0 auto;
     border: 1px solid green;
+}
+
+@media (max-width: 500px) {
+    [class*="__container"] {
+        max-width: 500px;
+        width: auto;
+    }
 }

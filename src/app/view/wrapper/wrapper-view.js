@@ -1,4 +1,3 @@
-import ElementCreator from '../../util/element-creator';
 import View from '../view';
 import FooterView from './footer/footer-view';
 import MainView from './main/main-view';
@@ -27,24 +26,16 @@ export default class WrapperView extends View {
         this.router = router;
         this.header = null;
         this.main = null;
-        this.configureView(params, router);
+        this.configureView(router);
     }
 
     /**
-     * @param params
-     * @param router
+     * @param {Router} router
      * @return {ElementCreator}
      */
 
-    configureView(params, router) {
-        const elementParams = {
-            tag: params.tag,
-            classNames: params.classNames,
-            textContent: params.textContent,
-            callback: params.callback,
-        };
-        const elementCreator = new ElementCreator(elementParams);
-        const wrapper = elementCreator.getElement();
+    configureView(router) {
+        const wrapper = this.elementCreator.getElement();
 
         this.header = new HeaderView(router);
         this.main = new MainView();
@@ -55,7 +46,8 @@ export default class WrapperView extends View {
             this.main.getHtmlElement(),
             footerView.getHtmlElement(),
         );
-        return elementCreator;
+
+        return this.elementCreator;
     }
 
     /**
