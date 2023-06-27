@@ -2,6 +2,7 @@ import View from '../../../view.js';
 import CardView from './card/card-view.js';
 import { cardsInfo } from '../../../../../data/cards.js';
 import './products.css';
+import CardDetailView from './card-detail/card-detail-view.js';
 
 const CssClasses = {
     PRODUCT: 'product',
@@ -9,9 +10,10 @@ const CssClasses = {
 
 export default class ProductView extends View {
     /**
+     * @param {Router} router
      * @param {string} id
      */
-    constructor(id = '') {
+    constructor(router, id = '') {
         /**
          * @type {ElementParams}
          */
@@ -23,13 +25,30 @@ export default class ProductView extends View {
         };
         super(params);
 
-        this.configureView();
+        if (id) {
+            this.addLargeCardToView(router, id);
+        } else {
+            this.addSmallCardsToView(router);
+        }
     }
 
-    configureView() {
+    /**
+     * @param {Router} router
+     */
+    addSmallCardsToView(router) {
         cardsInfo.forEach((card) => {
-            const cardView = new CardView(card);
-            this.elementCreator.addInnerElement(cardView.getHtmlElement());
+            const smallCardComponent = new CardView(card, router);
+            this.elementCreator.addInnerElement(smallCardComponent.getHtmlElement());
         });
+    }
+
+    /**
+     * @param {Router} router
+     * @param {string} id
+     */
+    addLargeCardToView(router, id) {
+        const selectedCard = cardsInfo.find((card) => card.id === id);
+        const largeCardComponent = new CardDetailView(selectedCard, router);
+        this.elementCreator.addInnerElement(largeCardComponent.getHtmlElement());
     }
 }

@@ -1,6 +1,7 @@
 import View from '../../../../view.js';
 import ElementCreator from '../../../../../util/element-creator.js';
 import './card.css';
+import { Pages } from '../../../../../router/pages.js';
 
 const CssClasses = {
     CARD: 'card',
@@ -13,8 +14,9 @@ const CARD_TEXT_MORE = 'Подробнее...';
 export default class CardView extends View {
     /**
      * @param {CardInfo} card
+     * @param {Router} router
      */
-    constructor(card) {
+    constructor(card, router) {
         /**
          * @type {ElementParams}
          */
@@ -26,7 +28,9 @@ export default class CardView extends View {
         };
         super(params);
 
-        this.configureView(card);
+        this.card = card;
+        this.router = router;
+        this.htmlElement = this.configureView(card);
     }
 
     /**
@@ -45,11 +49,15 @@ export default class CardView extends View {
             tag: 'button',
             classNames: [CssClasses.BUTTON],
             textContent: CARD_TEXT_MORE,
-            callback: null,
+            callback: this.buttonClickHandler.bind(this, `${Pages.PRODUCT}/${this.card.id}`),
         };
         const buttonCreator = new ElementCreator(paramsButton);
 
         this.elementCreator.addInnerElement(labelCreator);
         this.elementCreator.addInnerElement(buttonCreator);
+    }
+
+    buttonClickHandler(url) {
+        this.router.navigate(url);
     }
 }

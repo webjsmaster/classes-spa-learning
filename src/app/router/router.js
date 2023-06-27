@@ -1,4 +1,4 @@
-import { Pages } from './pages.js';
+import { Pages, ID_SELECTOR } from './pages.js';
 
 /**
  * @typedef {{path: string, callback: Function}} Route
@@ -10,6 +10,14 @@ export default class Router {
      */
     constructor(routes) {
         this.routes = routes;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const path = this.getCurrentPath();
+            this.navigate(path);
+        });
+
+        window.addEventListener('hashchange', this.browserChangeHandler.bind(this));
+        window.addEventListener('popstate', this.browserChangeHandler.bind(this));
     }
 
     /**
@@ -17,9 +25,8 @@ export default class Router {
      */
     navigate(url) {
         const request = this.parseUrl(url);
-        const pathForFind = request.resource === '' ? request.path : `${request.path}/${request.resource}`;
+        const pathForFind = request.resource === '' ? request.path : `${request.path}/${ID_SELECTOR}`;
 
-        console.log('🧬:', request.resource, pathForFind, this.routes);
         const route = this.routes.find((item) => item.path === pathForFind);
 
         if (!route) {
@@ -27,7 +34,7 @@ export default class Router {
             return;
         }
 
-        route.callback();
+        route.callback(request.resource);
     }
 
     /**
@@ -46,5 +53,21 @@ export default class Router {
         if (routeNotFound) {
             this.navigate(routeNotFound.path);
         }
+    }
+
+    browserChangeHandler() {
+        const path = this.getCurrentPath();
+        this.navigate(path);
+    }
+
+    /**
+     * @return {string}
+     */
+    getCurrentPath() {
+        console.log('🤡 ===>>> 🌜')
+        if (window.location.hash) {
+            return window.location.hash.slice(1);
+        }
+        return window.location.pathname.slice(1);
     }
 }

@@ -41,13 +41,13 @@ export default class App {
             {
                 path: `${Pages.PRODUCT}`,
                 callback: () => {
-                    this.setContent(Pages.PRODUCT, new ProductView());
+                    this.setContent(Pages.PRODUCT, new ProductView(this.router, ''));
                 },
             },
             {
                 path: `${Pages.PRODUCT}/${ID_SELECTOR}`,
                 callback: (id) => {
-                    this.setContent(Pages.PRODUCT, new ProductView(id));
+                    this.setContent(Pages.PRODUCT, new ProductView(this.router, id));
                 },
             },
             {

@@ -30,6 +30,7 @@ html, body {
     -moz-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
     font-family: Arial, Helvetica, sans-serif;
+    background-color: gray;
 }
 
 input, button, textarea {
