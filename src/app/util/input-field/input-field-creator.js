@@ -41,4 +41,8 @@ export default class InputFieldCreator extends ElementCreator {
             this.element.addEventListener('keyup', (e) => callback(e));
         }
     }
+
+    setValue(value) {
+        this.inputElement.value = value;
+    }
 }

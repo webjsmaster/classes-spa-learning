@@ -10,9 +10,12 @@ const FIELD_TEXT_ONE = 'Поле для ввода 1';
 const FIELD_TEXT_TWO = 'Поле для ввода 2';
 
 export default class IndexView extends View {
-    constructor() {
+    /**
+     * @param {State} state
+     */
+    constructor(state) {
         /**
-         * @type {import('../../../../util/element-creator').ElementParams}
+         * @type {ElementParams}
          */
         const params = {
             tag: 'section',
@@ -22,8 +25,7 @@ export default class IndexView extends View {
         };
         super(params);
 
-        this.firstField = '';
-        this.secondField = '';
+        this.state = state;
         this.configureView();
     }
 
@@ -36,6 +38,7 @@ export default class IndexView extends View {
         };
 
         let inputCreator = new InputFieldCreator(paramsInput);
+        inputCreator.setValue(this.state.getValue('firstInput'));
         this.elementCreator.addInnerElement(inputCreator.getElement());
 
         paramsInput = {
@@ -46,6 +49,7 @@ export default class IndexView extends View {
         };
 
         inputCreator = new InputFieldCreator(paramsInput);
+        inputCreator.setValue(this.state.getValue('secondInput'));
         this.elementCreator.addInnerElement(inputCreator.getElement());
     }
 
@@ -55,7 +59,7 @@ export default class IndexView extends View {
      */
     keyupHandler(event, fieldName) {
         if (event.target instanceof HTMLInputElement) {
-            this[fieldName] = event.target.value;
+            this.state.setValue(fieldName, event.target.value);
         }
     }
 }

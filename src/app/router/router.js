@@ -34,6 +34,8 @@ export default class Router {
             return;
         }
 
+        this.setAddressBar(url);
+
         route.callback(request.resource);
     }
 
@@ -64,10 +66,13 @@ export default class Router {
      * @return {string}
      */
     getCurrentPath() {
-        console.log('🤡 ===>>> 🌜')
         if (window.location.hash) {
             return window.location.hash.slice(1);
         }
         return window.location.pathname.slice(1);
+    }
+
+    setAddressBar(url) {
+        window.history.pushState(null, null, `/${url}`);
     }
 }
