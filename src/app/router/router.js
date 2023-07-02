@@ -1,78 +1,55 @@
-import { Pages, ID_SELECTOR } from './pages.js';
+import HashHandler from './handler/hash/hash-handler';
+import HistoryHandler from './handler/history/history-handler';
+import { Pages, ID_SELECTOR } from './pages';
 
 /**
  * @typedef {{path: string, callback: Function}} Route
  */
 export default class Router {
     /**
-     *
      * @param {Array<Route>} routes
      */
     constructor(routes) {
         this.routes = routes;
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const path = this.getCurrentPath();
-            this.navigate(path);
-        });
+        this.handler = new HistoryHandler(this.urlChangedHandler.bind(this));
 
-        window.addEventListener('hashchange', this.browserChangeHandler.bind(this));
-        window.addEventListener('popstate', this.browserChangeHandler.bind(this));
+        document.addEventListener('DOMContentLoaded', () => {
+            this.handler.navigate(null);
+        });
+    }
+
+    setHashHandler() {
+        this.handler.disable();
+        this.handler = new HashHandler(this.urlChangedHandler.bind(this));
     }
 
     /**
      * @param {string} url
      */
     navigate(url) {
-        const request = this.parseUrl(url);
-        const pathForFind = request.resource === '' ? request.path : `${request.path}/${ID_SELECTOR}`;
+        this.handler.navigate(url);
+    }
 
+    /**
+     * @param {import('./handler/history-router-handler.js').RequestParams} requestParams
+     */
+    urlChangedHandler(requestParams) {
+        const pathForFind = requestParams.resource === '' ? requestParams.path : `${requestParams.path}/${ID_SELECTOR}`;
         const route = this.routes.find((item) => item.path === pathForFind);
 
         if (!route) {
-            this.redirectToNotFound();
+            this.redirectToNotFoundPage();
             return;
         }
 
-        this.setAddressBar(url);
-
-        route.callback(request.resource);
+        route.callback(requestParams.resource);
     }
 
-    /**
-     * @typedef {{path: string, resource: string}} UserRequest
-     * @param {string} url
-     * @return {UserRequest}
-     */
-    parseUrl(url) {
-        const result = {};
-        [result.path = '', result.resource = ''] = url.split('/');
-        return result;
-    }
-
-    redirectToNotFound() {
-        const routeNotFound = this.routes.find((item) => item.path === Pages.NOT_FOUND);
-        if (routeNotFound) {
-            this.navigate(routeNotFound.path);
+    redirectToNotFoundPage() {
+        const notFoundPage = this.routes.find((item) => item.path === Pages.NOT_FOUND);
+        if (notFoundPage) {
+            this.navigate(notFoundPage.path);
         }
-    }
-
-    browserChangeHandler() {
-        const path = this.getCurrentPath();
-        this.navigate(path);
-    }
-
-    /**
-     * @return {string}
-     */
-    getCurrentPath() {
-        if (window.location.hash) {
-            return window.location.hash.slice(1);
-        }
-        return window.location.pathname.slice(1);
-    }
-
-    setAddressBar(url) {
-        window.history.pushState(null, null, `/${url}`);
     }
 }

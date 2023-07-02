@@ -2,7 +2,7 @@ const KEY_FOR_SAVE = 'spaApp';
 
 export default class State {
     constructor() {
-        this.fields = this.leadState();
+        this.fields = this.loadState();
         window.addEventListener('beforeunload', this.saveState.bind(this));
     }
 
@@ -34,7 +34,7 @@ export default class State {
     /**
      * @return {Map}
      */
-    leadState() {
+    loadState() {
         const fields = localStorage.getItem(KEY_FOR_SAVE);
         if (fields) {
             const fieldArray = JSON.parse(fields);

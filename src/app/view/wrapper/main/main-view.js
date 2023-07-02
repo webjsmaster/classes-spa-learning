@@ -26,7 +26,7 @@ export default class MainView extends View {
         const paramsDiv = {
             tag: 'div',
             classNames: [CssClasses.CONTENT],
-            textContent: 'test',
+            textContent: '',
             callback: null,
         };
 

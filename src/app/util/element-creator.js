@@ -3,7 +3,8 @@
  * tag: string,
  * classNames: Array<string>,
  * textContent: string,
- * callback: Function
+ * callback: Function,
+ * attribute: Array<{}>,
  * }} ElementParams
  */
 export default class ElementCreator {
@@ -23,6 +24,10 @@ export default class ElementCreator {
         this.setCssClasses(param.classNames);
         this.setTextContent(param.textContent);
         this.setCallback(param.callback);
+
+        if (param.attribute) {
+            this.setAttribute(param.attribute);
+        }
     }
 
     createContainer() {
@@ -80,5 +85,18 @@ export default class ElementCreator {
         if (typeof callback === 'function') {
             this.element.addEventListener('click', (e) => callback(e));
         }
+    }
+
+    /**
+     *
+     * @param {Map<string>} attribute
+     */
+    setAttribute(attribute) {
+        attribute.forEach((attr) => {
+            Object.keys(attr).forEach((key) => {
+                console.log('🤡:', this.element);
+                this.element.setAttribute(attr[key], key);
+            });
+        });
     }
 }

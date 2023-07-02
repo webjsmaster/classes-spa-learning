@@ -4,7 +4,7 @@ import './footer.css';
 
 const CssClasses = {
     FOOTER: 'footer',
-    CONTENT: 'footer__content'
+    CONTENT: 'footer__content',
 };
 
 const TEXT = 'SPA example app';
@@ -36,5 +36,4 @@ export default class FooterView extends View {
         this.elementCreator.createContainer();
         this.elementCreator.addInnerElement(footer);
     }
-
 }

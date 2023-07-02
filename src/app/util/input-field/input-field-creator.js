@@ -8,7 +8,7 @@ const InputFieldCssClasses = {
 
 export default class InputFieldCreator extends ElementCreator {
     /**
-     * @param param
+     * @param {import('./../element-creator').ElementParams} param
      * @example
      */
     createElement(param) {
@@ -17,6 +17,11 @@ export default class InputFieldCreator extends ElementCreator {
         param.classNames.forEach((name) => {
             this.element.classList.add(name);
         });
+
+
+        if (param.attribute) {
+            this.setAttribute(param.attribute);
+        }
 
         this.setCallback(param.callback);
 

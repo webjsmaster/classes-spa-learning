@@ -2,10 +2,15 @@
     flex: 1 0 auto;
     margin-top: 30px;
     background-color: grey;
+    position: relative;
 
 }
 
-.main__content {
-    background-color: aquamarine;
-    min-height: 100%;
+.main__container {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 100%;
 }

@@ -1,3 +1,6 @@
+/**
+ * @typedef {{path: string, resource: string}} RequestParams
+ */
 export default class HandlerRouter {
     /**
      * @typedef {{nameEvent: string, locationField: string, callback: Function}} RouterHandlerParam
@@ -17,12 +20,13 @@ export default class HandlerRouter {
     navigate(url) {
         const urlString = url || window.location[this.params.locationField].slice(1);
 
+        console.log('⛔:Hash не работает', url);
+
         /**
          * @type {RequestParams}
          */
         const result = {};
-        const path = urlString.split('/');
-        [result.path = '', result.resource = ''] = path;
+        [result.path = '', result.resource = ''] = urlString.split('/');
 
         this.params.callback(result);
     }

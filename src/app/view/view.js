@@ -31,6 +31,7 @@ export default class View {
             classNames: params.classNames,
             textContent: params.textContent,
             callback: params.callback,
+            attribute: params.attr,
         };
         return new ElementCreator(elementParams);
     }
