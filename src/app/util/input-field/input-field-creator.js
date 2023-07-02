@@ -18,15 +18,19 @@ export default class InputFieldCreator extends ElementCreator {
             this.element.classList.add(name);
         });
 
-
-        if (param.attribute) {
-            this.setAttribute(param.attribute);
-        }
-
         this.setCallback(param.callback);
 
         this.inputElement = document.createElement('input');
         this.labelElement = document.createElement('label');
+
+        if (param.attribute) {
+            this.setAttribute(this.inputElement, param.attribute);
+        }
+
+        if (param.attribute.find((at) => at.name)) {
+            const { name } = param.attribute.find((at) => at.name);
+            this.labelElement.setAttribute('for', name);
+        }
 
         this.setTextContent(param.textContent);
 
@@ -49,5 +53,18 @@ export default class InputFieldCreator extends ElementCreator {
 
     setValue(value) {
         this.inputElement.value = value;
+    }
+
+    /**
+     *
+     * @param {} element
+     * @param {Array<{}>} attribute
+     */
+    setAttribute(element, attribute) {
+        attribute.forEach((attr) => {
+            Object.keys(attr).forEach((key) => {
+                element.setAttribute(key, attr[key]);
+            });
+        });
     }
 }

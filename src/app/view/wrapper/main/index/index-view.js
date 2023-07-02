@@ -34,6 +34,7 @@ export default class IndexView extends View {
             tag: 'input',
             classNames: [],
             textContent: FIELD_TEXT_ONE,
+            attribute: [{ type: 'text' }, { name: 'firstInput' }],
             callback: (event) => this.keyupHandler(event, 'firstInput'),
         };
 
@@ -45,6 +46,7 @@ export default class IndexView extends View {
             tag: 'input',
             classNames: [],
             textContent: FIELD_TEXT_TWO,
+            attribute: [{ type: 'text' }, { name: 'secondInput' }],
             callback: (event) => this.keyupHandler(event, 'secondInput'),
         };
 
