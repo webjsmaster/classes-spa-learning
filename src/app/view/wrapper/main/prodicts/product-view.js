@@ -8,6 +8,8 @@ const CssClasses = {
     PRODUCT: 'product',
 };
 
+const baseAddress = 'https://fakestoreapi.com/products';
+
 export default class ProductView extends View {
     /**
      * @param {Router} router
@@ -24,22 +26,35 @@ export default class ProductView extends View {
             callback: null,
         };
         super(params);
+        let count = 0;
 
         if (id) {
             this.addLargeCardToView(router, id);
         } else {
+            count++;
             this.addSmallCardsToView(router);
         }
+
+        console.log('🚀:', count);
     }
 
     /**
      * @param {Router} router
      */
-    addSmallCardsToView(router) {
-        cardsInfo.forEach((card) => {
+    async addSmallCardsToView(router) {
+        // cardsInfo.forEach((card) => {
+        //     const smallCardComponent = new CardView(card, router);
+        //     this.elementCreator.addInnerElement(smallCardComponent.getHtmlElement());
+        // });
+
+        const products = await this.getProducts();
+
+        products.forEach((card) => {
             const smallCardComponent = new CardView(card, router);
             this.elementCreator.addInnerElement(smallCardComponent.getHtmlElement());
         });
+
+        console.log('🧬:PRODUCTS', products);
     }
 
     /**
@@ -47,8 +62,19 @@ export default class ProductView extends View {
      * @param {string} id
      */
     addLargeCardToView(router, id) {
+        fetch(`${baseAddress}/${id}`)
+            .then((res) => res.json())
+            .then((json) => console.log(json));
         const selectedCard = cardsInfo.find((card) => card.id === id);
         const largeCardComponent = new CardDetailView(selectedCard, router);
         this.elementCreator.addInnerElement(largeCardComponent.getHtmlElement());
+    }
+
+    async getProducts() {
+        const response = await fetch(baseAddress);
+        if (response.ok) {
+            return response.json();
+        }
+        return [];
     }
 }

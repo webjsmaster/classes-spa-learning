@@ -2,8 +2,7 @@ import './input-field.css';
 import ElementCreator from '../element-creator.js';
 
 const InputFieldCssClasses = {
-    CONTAINER: 'field',
-    CONTAINER_REVERSE: 'field_revers',
+    CONTAINER: 'index__field',
 };
 
 export default class InputFieldCreator extends ElementCreator {
@@ -14,14 +13,13 @@ export default class InputFieldCreator extends ElementCreator {
     createElement(param) {
         this.element = document.createElement('div');
         this.element.classList.add(InputFieldCssClasses.CONTAINER);
-        param.classNames.forEach((name) => {
-            this.element.classList.add(name);
-        });
 
         this.setCallback(param.callback);
 
         this.inputElement = document.createElement('input');
+        this.inputElement.classList.add('index__input');
         this.labelElement = document.createElement('label');
+        this.labelElement.classList.add('index__label');
 
         if (param.attribute) {
             this.setAttribute(this.inputElement, param.attribute);

@@ -44,6 +44,7 @@ export default class App {
             {
                 path: `${Pages.PRODUCT}`,
                 callback: async () => {
+                    console.log('🤡:ROUTER!!!!');
                     const { default: ProductView } = await import('./view/wrapper/main/prodicts/product-view');
                     this.setContent(Pages.PRODUCT, new ProductView(this.router, ''));
                 },

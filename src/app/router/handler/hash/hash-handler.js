@@ -22,5 +22,6 @@ export default class HashHandler extends HistoryHandler {
      */
     setHistory(url) {
         window.location.href = `${window.location.href.replace(/#(.*)$/, '')}#${url}`;
+        // window.history.pushState(null, null, `/${url}`);
     }
 }

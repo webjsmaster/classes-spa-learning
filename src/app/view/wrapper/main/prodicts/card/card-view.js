@@ -40,7 +40,7 @@ export default class CardView extends View {
         const paramsLabel = {
             tag: 'label',
             classNames: [CssClasses.FIELD],
-            textContent: card.name,
+            textContent: card.title,
             callback: null,
         };
         const labelCreator = new ElementCreator(paramsLabel);
