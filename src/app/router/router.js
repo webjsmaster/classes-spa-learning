@@ -12,7 +12,9 @@ export default class Router {
     constructor(routes) {
         this.routes = routes;
 
-        this.handler = new HistoryHandler(this.urlChangedHandler.bind(this));
+        // this.handler = new HistoryHandler(this.urlChangedHandler.bind(this));
+
+        // this.handler = new HashHandler(this.urlChangedHandler.bind(this));
 
         document.addEventListener('DOMContentLoaded', () => {
             this.handler.navigate(null);
@@ -20,7 +22,8 @@ export default class Router {
     }
 
     setHashHandler() {
-        this.handler.disable();
+        console.log('🌻:setHashHandler');
+        // this.handler.disable();
         this.handler = new HashHandler(this.urlChangedHandler.bind(this));
     }
 
@@ -28,6 +31,7 @@ export default class Router {
      * @param {string} url
      */
     navigate(url) {
+        console.log('🌻:NAVIGATE-ROUTER', url);
         this.handler.navigate(url);
     }
 
@@ -43,6 +47,7 @@ export default class Router {
             return;
         }
 
+        console.log('📢 [router.js:50]');
         route.callback(requestParams.resource);
     }
 

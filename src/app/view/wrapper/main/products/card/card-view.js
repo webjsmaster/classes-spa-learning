@@ -53,6 +53,9 @@ export default class CardView extends View {
         };
         const buttonCreator = new ElementCreator(paramsButton);
 
+        this.elementCreator.getElement().style.background = `url(${card.image}) center center no-repeat`;
+        this.elementCreator.getElement().style.backgroundSize = 'cover';
+
         this.elementCreator.addInnerElement(labelCreator);
         this.elementCreator.addInnerElement(buttonCreator);
     }

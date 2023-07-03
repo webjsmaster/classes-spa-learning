@@ -26,16 +26,12 @@ export default class ProductView extends View {
             callback: null,
         };
         super(params);
-        let count = 0;
 
         if (id) {
             this.addLargeCardToView(router, id);
         } else {
-            count++;
             this.addSmallCardsToView(router);
         }
-
-        console.log('🚀:', count);
     }
 
     /**

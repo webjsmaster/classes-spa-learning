@@ -14,13 +14,20 @@ export default class HistoryHandler {
         this.callback = callback;
         this.handler = this.navigate.bind(this);
 
-        window.addEventListener(this.params.nameEvent, this.handler);
+        // window.addEventListener(this.params.nameEvent, this.handler);
+
+        console.log('🧬:', this.params)
+
+        window.addEventListener(this.params.nameEvent, (event) => console.log('🍄:', this.params.nameEvent));
+
     }
 
     /**
      * @param {PopStateEvent | string} url
      */
     navigate(url) {
+
+        console.log('⛔:', url);
         if (typeof url === 'string') {
             this.setHistory(url);
         }

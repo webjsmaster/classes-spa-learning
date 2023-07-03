@@ -19,8 +19,8 @@ export default class LinkView extends View {
         const params = {
             tag: 'a',
             classNames: [CssClasses.ITEM],
-            textContent: pageParam.name,
-            callback: pageParam.callback,
+            // textContent: pageParam.name,
+            // callback: pageParam.callback,
         };
         super(params);
         this.linkElements = linkElements;
@@ -45,6 +45,7 @@ export default class LinkView extends View {
     configureView(pageParam) {
         this.elementCreator.setTextContent(pageParam.name);
         this.elementCreator.setCallback(pageParam.callback);
+        // удалено из-за потворного рендеренги
         const element = this.elementCreator.getElement();
         element.addEventListener('click', this.setSelectedStatus.bind(this));
     }

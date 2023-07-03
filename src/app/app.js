@@ -44,15 +44,16 @@ export default class App {
             {
                 path: `${Pages.PRODUCT}`,
                 callback: async () => {
-                    console.log('🤡:ROUTER!!!!');
-                    const { default: ProductView } = await import('./view/wrapper/main/prodicts/product-view');
+                    console.log('🤡:ROUTER-----> PRODUCTS');
+                    const { default: ProductView } = await import('./view/wrapper/main/products/product-view');
                     this.setContent(Pages.PRODUCT, new ProductView(this.router, ''));
                 },
             },
             {
                 path: `${Pages.PRODUCT}/${ID_SELECTOR}`,
                 callback: async (id) => {
-                    const { default: ProductView } = await import('./view/wrapper/main/prodicts/product-view');
+                    console.log('🇸🇲:ROUTER-----> ONE-PRODUCT');
+                    const { default: ProductView } = await import('./view/wrapper/main/products/product-view');
                     this.setContent(Pages.PRODUCT, new ProductView(this.router, id));
                 },
             },
