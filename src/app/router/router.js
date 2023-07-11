@@ -1,6 +1,6 @@
-import HashHandler from './handler/hash/hash-handler';
-import HistoryHandler from './handler/history/history-handler';
-import { Pages, ID_SELECTOR } from './pages';
+import HashRouterHandler from './handler/hash/hash-handler';
+import HistoryRouterHandler from './handler/history/history-handler';
+import { ID_SELECTOR, Pages } from './pages';
 
 /**
  * @typedef {{path: string, callback: Function}} Route
@@ -12,9 +12,18 @@ export default class Router {
     constructor(routes) {
         this.routes = routes;
 
-        // this.handler = new HistoryHandler(this.urlChangedHandler.bind(this));
+        this.handler = new HistoryRouterHandler(this.urlChangedHandler.bind(this));
 
-        // this.handler = new HashHandler(this.urlChangedHandler.bind(this));
+        // this.handler = new HashRouterHandler(this.urlChangedHandler.bind(this));
+
+        window.addEventListener('popstate', () => {
+            console.log('🌻:', this.handler);
+            this.handler = new HistoryRouterHandler(this.urlChangedHandler.bind(this));
+        });
+
+        window.addEventListener('hashchange', () => {
+            this.handler = new HashRouterHandler(this.urlChangedHandler.bind(this));
+        });
 
         document.addEventListener('DOMContentLoaded', () => {
             this.handler.navigate(null);
@@ -24,7 +33,7 @@ export default class Router {
     setHashHandler() {
         console.log('🌻:setHashHandler');
         // this.handler.disable();
-        this.handler = new HashHandler(this.urlChangedHandler.bind(this));
+        // this.handler = new HashHandler(this.urlChangedHandler.bind(this));
     }
 
     /**
@@ -47,7 +56,6 @@ export default class Router {
             return;
         }
 
-        console.log('📢 [router.js:50]');
         route.callback(requestParams.resource);
     }
 

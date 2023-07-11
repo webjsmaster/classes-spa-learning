@@ -1,27 +1,18 @@
-import HistoryHandler from '../history/history-handler';
+import HandlerRouter from '../handler';
 
-export default class HashHandler extends HistoryHandler {
+export default class HashRouterHandler extends HandlerRouter {
     /**
-     * @param {Function} callbackRouter
+     * @param {function} callbackRouter
      */
     constructor(callbackRouter) {
-        super(callbackRouter);
-        /**
-         * @type {import('../history-router-handler').RouterHandlerParam}
-         */
-        this.params = {
+        const handlerParams = {
             nameEvent: 'hashchange',
             locationField: 'hash',
+            callback: callbackRouter,
         };
+        super(handlerParams);
 
-        // window.addEventListener(this.params.nameEvent, this.handler);
-        window.addEventListener(this.params.nameEvent, (event) => console.log('🔥:', event));
-    }
-
-    /**
-     * @param {string} url
-     */
-    setHistory(url) {
-        window.location.href = `${window.location.href.replace(/#(.*)$/, '')}#${url}`;
+        window.addEventListener('hashchange', this.navigate.bind(this));
+        window.removeEventListener('popstate', this.navigate.bind(this));
     }
 }

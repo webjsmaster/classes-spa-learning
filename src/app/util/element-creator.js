@@ -24,10 +24,6 @@ export default class ElementCreator {
         this.setCssClasses(param.classNames);
         this.setTextContent(param.textContent);
         this.setCallback(param.callback);
-
-        if (param.attribute) {
-            this.setAttribute(param.attribute);
-        }
     }
 
     createContainer() {

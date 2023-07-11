@@ -38,17 +38,14 @@ export default class ProductView extends View {
      * @param {Router} router
      */
     async addSmallCardsToView(router) {
-        // cardsInfo.forEach((card) => {
-        //     const smallCardComponent = new CardView(card, router);
-        //     this.elementCreator.addInnerElement(smallCardComponent.getHtmlElement());
-        // });
-
         const products = await this.getProducts();
 
-        products.forEach((card) => {
-            const smallCardComponent = new CardView(card, router);
-            this.elementCreator.addInnerElement(smallCardComponent.getHtmlElement());
-        });
+        if (products instanceof Array) {
+            products.forEach((card) => {
+                const smallCardComponent = new CardView(card, router);
+                this.elementCreator.addInnerElement(smallCardComponent.getHtmlElement());
+            });
+        }
 
         console.log('🧬:PRODUCTS', products);
     }
@@ -66,11 +63,21 @@ export default class ProductView extends View {
         this.elementCreator.addInnerElement(largeCardComponent.getHtmlElement());
     }
 
-    async getProducts() {
-        const response = await fetch(baseAddress);
-        if (response.ok) {
-            return response.json();
-        }
-        return [];
+    getProducts() {
+        return fetch(baseAddress)
+            .then((res) => {
+                if (res.status >= 200 && res.status < 300) {
+                    return res;
+                }
+                const error = new Error(res.statusText);
+                error.response = res;
+                throw error;
+            })
+            .then((res) => res.json())
+            .then((data) => data)
+            .catch((e) => {
+                console.log(`Error: ${e.message}`);
+                return e.message;
+            });
     }
 }

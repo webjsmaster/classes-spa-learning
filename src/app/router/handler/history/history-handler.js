@@ -1,56 +1,18 @@
-/**
- * @typedef {{path: string, resource: string}} RequestParams
- * @typedef {{nameEvent: string, locationField: string}} RouterHandlerParam
- */
-export default class HistoryHandler {
+import HandlerRouter from '../handler';
+
+export default class HistoryRouterHandler extends HandlerRouter {
     /**
-     * @param {Function} callback
+     * @param {function} callbackRouter
      */
-    constructor(callback) {
-        this.params = {
+    constructor(callbackRouter) {
+        const handlerParams = {
             nameEvent: 'popstate',
             locationField: 'pathname',
+            callback: callbackRouter,
         };
-        this.callback = callback;
-        this.handler = this.navigate.bind(this);
+        super(handlerParams);
 
-        // window.addEventListener(this.params.nameEvent, this.handler);
-
-        console.log('🧬:', this.params)
-
-        window.addEventListener(this.params.nameEvent, (event) => console.log('🍄:', this.params.nameEvent));
-
-    }
-
-    /**
-     * @param {PopStateEvent | string} url
-     */
-    navigate(url) {
-
-        console.log('⛔:', url);
-        if (typeof url === 'string') {
-            this.setHistory(url);
-        }
-        const urlString = window.location[this.params.locationField].slice(1);
-
-        /**
-         * @type {RequestParams}
-         */
-        const result = {};
-        const path = urlString.split('/');
-        [result.path = '', result.resource = ''] = path;
-
-        this.callback(result);
-    }
-
-    disable() {
-        window.removeEventListener(this.params.nameEvent, this.handler);
-    }
-
-    /**
-     * @param {string} url
-     */
-    setHistory(url) {
-        window.history.pushState(null, null, `/${url}`);
+        window.addEventListener('popstate', this.navigate.bind(this));
+        window.removeEventListener('hashchange', this.navigate.bind(this));
     }
 }

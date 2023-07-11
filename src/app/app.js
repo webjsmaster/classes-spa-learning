@@ -9,7 +9,7 @@ export default class App {
         this.wrapper = null;
         const state = new State();
         this.router = new Router(this.createRoutes(state));
-        this.router.setHashHandler();
+        // this.router.setHashHandler();
         this.createView();
     }
 
